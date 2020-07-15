@@ -30,12 +30,11 @@ namespace UwpTraining_E1.Views
         public ContactDetails()
         {
             this.InitializeComponent();
-
             this.ViewModel = new ContactDetailsViewModel
             {
                 FirstName = "Alex",
                 LastName = "Jones",
-                FavouriteColors = new ObservableCollection<string> { "Red", "Pink", "Blue", "#FFF" }
+                FavouriteColors = new ObservableCollection<string> { "Red", "Pink", "Blue" }
             };
         }
 
