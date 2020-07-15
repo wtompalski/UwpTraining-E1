@@ -68,7 +68,12 @@
                 <TextBlock Style="{StaticResource impTextBlockStyle}" Grid.Row="3" Text="Favourite colors" />
 
                 <ListView x:Name="colorsListView" Grid.Column="1" Grid.Row="3" Margin="20,20,20,20" ItemsSource="{x:Bind ViewModel.FavouriteColors}" ItemTemplate="{StaticResource colorDataTemplate}">
-            </ListView>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
                 <TextBlock Style="{StaticResource impTextBlockStyle}" Grid.Row="4" Text="Selected colors" />
                 <TextBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Text="{Binding SelectedItem, ElementName=colorsListView}" Margin="20,20,20,20" />
             </Grid>
