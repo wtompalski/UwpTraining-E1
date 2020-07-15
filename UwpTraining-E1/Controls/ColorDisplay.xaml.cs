@@ -19,13 +19,14 @@ namespace UwpTraining_E1.Controls
 {
     public sealed partial class ColorDisplay : UserControl
     {
-        private string favColor;
-
         public string FavColor
         {
-            get { return favColor; }
-            set { favColor = value; }
+            get { return (string)GetValue(FavColorProperty); }
+            set { SetValue(FavColorProperty, value); }
         }
+
+        public static readonly DependencyProperty FavColorProperty =
+            DependencyProperty.Register("FavColor", typeof(string), typeof(ColorDisplay), new PropertyMetadata(0));
 
         public ColorDisplay()
         {
