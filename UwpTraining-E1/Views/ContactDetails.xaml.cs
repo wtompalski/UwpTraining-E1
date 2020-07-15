@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UwpTraining_E1.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +24,25 @@ namespace UwpTraining_E1.Views
     /// </summary>
     public sealed partial class ContactDetails : Page
     {
+
+        public ContactDetailsViewModel ViewModel { get; set; }
+
         public ContactDetails()
         {
             this.InitializeComponent();
+
+            this.ViewModel = new ContactDetailsViewModel
+            {
+                FirstName = "Alex",
+                LastName = "Jones",
+                FavouriteColors = new ObservableCollection<string> { "Red", "Pink", "Blue", "#FFF" }
+            };
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.ViewModel.FavouriteColors.Add("Yellow");
+            this.OKButton.Content = DateTime.Now.Ticks;
         }
     }
 }
