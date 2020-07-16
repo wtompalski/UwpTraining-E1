@@ -146,6 +146,8 @@ namespace UwpTraining_E1
         protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
+
+            new UwpTraining_E1.Background.BackgroundTask().Run(args.TaskInstance);
         }
     }
 }

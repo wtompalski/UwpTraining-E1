@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using UwpTraining_E1.Background;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation;
@@ -81,10 +82,10 @@ namespace UwpTraining_E1.Views
             task.Progress += Task_Progress;
             task.Completed += Task_Completed;
 
-            UpdateUI();
+            await UpdateUI();
         }
 
-        private void UnregisterBackgroundTask(object sender, RoutedEventArgs e)
+        private async void UnregisterBackgroundTask(object sender, RoutedEventArgs e)
         {
             foreach (var cur in BackgroundTaskRegistration.AllTasks)
             {
@@ -97,43 +98,47 @@ namespace UwpTraining_E1.Views
             AppBackgroundState.ApplicationTriggerTaskRegistered = false;
             AppBackgroundState.ApplicationTriggerTaskProgress = string.Empty;
 
-            UpdateUI();
+            await UpdateUI();
         }
 
         private async void SignalBackgroundTask(object sender, RoutedEventArgs e)
         {
             var settings = ApplicationData.Current.LocalSettings;
             settings.Values.Remove(AppBackgroundState.ApplicationTriggerTaskName);
-
-            var result = await trigger.RequestAsync();
+            var p = new ValueSet();
+            p.Add("par1", "val1");
+            var result = await trigger.RequestAsync(p);
             AppBackgroundState.ApplicationTriggerTaskResult = "Signal result: " + result.ToString();
-            UpdateUI();
+            await UpdateUI();
         }
 
-        private void Task_Progress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
+        private async void Task_Progress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
         {
             var progress = "Progress: " + args.Progress + "%";
             AppBackgroundState.ApplicationTriggerTaskProgress = progress;
-            UpdateUI();
+            await UpdateUI();
         }
 
-        private void Task_Completed(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
+        private async void Task_Completed(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
         {
-            UpdateUI();
+            await UpdateUI();
         }
 
-        private void UpdateUI()
+        private async Task UpdateUI()
         {
             object taskStatus;
             var settings = ApplicationData.Current.LocalSettings;
             settings.Values.TryGetValue(AppBackgroundState.ApplicationTriggerTaskName, out taskStatus);
-
-            RegisterButton.IsEnabled = !AppBackgroundState.ApplicationTriggerTaskRegistered;
-            UnregisterButton.IsEnabled = AppBackgroundState.ApplicationTriggerTaskRegistered;
-            SignalButton.IsEnabled = AppBackgroundState.ApplicationTriggerTaskRegistered & (trigger != null);
-            Progress.Text = AppBackgroundState.ApplicationTriggerTaskProgress;
-            Result.Text = AppBackgroundState.ApplicationTriggerTaskResult;
-            Status.Text = AppBackgroundState.ApplicationTriggerTaskRegistered ? "Registered " : "Unregistered " + taskStatus;
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    RegisterButton.IsEnabled = !AppBackgroundState.ApplicationTriggerTaskRegistered;
+                    UnregisterButton.IsEnabled = AppBackgroundState.ApplicationTriggerTaskRegistered;
+                    SignalButton.IsEnabled = AppBackgroundState.ApplicationTriggerTaskRegistered & (trigger != null);
+                    Progress.Text = AppBackgroundState.ApplicationTriggerTaskProgress;
+                    Result.Text = AppBackgroundState.ApplicationTriggerTaskResult;
+                    Status.Text = AppBackgroundState.ApplicationTriggerTaskRegistered ? "Registered " : "Unregistered " + taskStatus;
+                });
         }
     }
 }
