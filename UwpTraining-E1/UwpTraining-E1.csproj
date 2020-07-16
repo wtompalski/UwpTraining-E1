@@ -132,6 +132,9 @@
     <Compile Include="Views\ContactDetails.xaml.cs">
       <DependentUpon>ContactDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MemoryUsage.xaml.cs">
+      <DependentUpon>MemoryUsage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -166,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ContactDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MemoryUsage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

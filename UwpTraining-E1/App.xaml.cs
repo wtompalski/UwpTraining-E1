@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using UwpTraining_E1.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,6 +34,25 @@ namespace UwpTraining_E1
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.Resuming += OnResuming;
+
+            this.EnteredBackground += OnEnteredBackground;
+            this.LeavingBackground += OnLeavingBackground;
+        }
+
+        private void OnEnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        {
+            Debug.WriteLine("OnEnteredBackground with " + MemoryManager.AppMemoryUsageLevel);
+
+            var def = e.GetDeferral();
+
+            // ....
+            def.Complete();
+        }
+
+        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            Debug.WriteLine("OnLeavingBackground");
         }
 
         /// <summary>
@@ -40,6 +62,8 @@ namespace UwpTraining_E1
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Debug.WriteLine("OnLaunched " + e.PreviousExecutionState);
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -91,11 +115,32 @@ namespace UwpTraining_E1
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            Debug.WriteLine("OnSuspending");
+
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+
+            await this.DoWork();
+
             deferral.Complete();
+
+            Debug.WriteLine("OnSuspended");
+        }
+
+        private void OnResuming(object sender, object e)
+        {
+            Debug.WriteLine("OnResuming");
+        }
+
+        private async Task DoWork()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Debug.WriteLine("DoWork " + i);
+                await Task.Delay(10);
+            }
+            //await Task.Delay(10000);
         }
     }
 }

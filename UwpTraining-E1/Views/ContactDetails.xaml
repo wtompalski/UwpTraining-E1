@@ -22,7 +22,15 @@
         </Style>
 
         <DataTemplate x:Key="colorDataTemplate" x:DataType="x:String">
-            <!--<Rectangle Fill="{x:Bind}" Width="50" Height="50"></Rectangle>-->
+            <!--<Grid BorderBrush="Black" BorderThickness="1" Width="80" Height="80">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Rectangle Fill="{x:Bind }" />
+
+                <TextBlock Text="{x:Bind }" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>-->
             <controls:ColorDisplay FavColor="{x:Bind}" />
         </DataTemplate>
 
