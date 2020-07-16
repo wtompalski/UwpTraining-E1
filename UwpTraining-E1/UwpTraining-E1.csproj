@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Background\AppBackgroundState.cs" />
     <Compile Include="Controls\ColorDisplay.xaml.cs">
       <DependentUpon>ColorDisplay.xaml</DependentUpon>
     </Compile>
@@ -129,6 +130,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Base\BindableBase.cs" />
     <Compile Include="ViewModels\ContactDetailsViewModel.cs" />
+    <Compile Include="Views\BackgroundTask.xaml.cs">
+      <DependentUpon>BackgroundTask.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ContactDetails.xaml.cs">
       <DependentUpon>ContactDetails.xaml</DependentUpon>
     </Compile>
@@ -165,6 +169,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\GlobalResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BackgroundTask.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
