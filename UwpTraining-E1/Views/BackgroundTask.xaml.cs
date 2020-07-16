@@ -125,6 +125,7 @@ namespace UwpTraining_E1.Views
         private async void Task_Completed(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
         {
             await UpdateUI();
+            this.ShowMeToast();
         }
 
         private async Task UpdateUI()
@@ -145,6 +146,11 @@ namespace UwpTraining_E1.Views
         }
 
         private void ShowToast_Click(object sender, RoutedEventArgs e)
+        {
+            this.ShowMeToast();
+        }
+
+        private void ShowMeToast()
         {
             string title = "Alice sends you a cat picture";
             string content = "Look at this cuttie!";
