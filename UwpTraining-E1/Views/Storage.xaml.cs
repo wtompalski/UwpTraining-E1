@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -58,6 +59,8 @@ namespace UwpTraining_E1.Views
             {
                 this.SettingsContent.Text = setting.ToString();
             }
+
+            UpdateUI();
         }
 
         private void SaveSetting_Click(object sender, RoutedEventArgs e)
@@ -92,6 +95,25 @@ namespace UwpTraining_E1.Views
 
             StorageFile file = await picker.PickSingleFileAsync();
             this.FileContent.Text = await FileIO.ReadTextAsync(file);
+        }
+
+        private async Task UpdateUI()
+        {
+            var list = await localFolder.GetFilesAsync();
+            this.listOfFiles.ItemsSource = list.Select(x => x.Name);
+        }
+
+        private async void Import_Click(object sender, RoutedEventArgs e)
+        {
+            var picker = new FileOpenPicker();
+            picker.ViewMode = PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            picker.FileTypeFilter.Add(".jpg");
+
+            StorageFile file = await picker.PickSingleFileAsync();
+
+            await file.CopyAsync(localFolder);
+            await UpdateUI();
         }
     }
 }
