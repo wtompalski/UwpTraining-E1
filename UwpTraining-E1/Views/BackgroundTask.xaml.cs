@@ -29,7 +29,7 @@ namespace UwpTraining_E1.Views
     /// </summary>
     public sealed partial class BackgroundTask : Page
     {
-        private ApplicationTrigger trigger = null;
+        private IBackgroundTrigger trigger = null;
 
         public BackgroundTask()
         {
@@ -57,7 +57,7 @@ namespace UwpTraining_E1.Views
                 }
             }
 
-            trigger = new ApplicationTrigger();
+            trigger = new ToastNotificationActionTrigger();
             UpdateUI();
         }
 
@@ -110,8 +110,8 @@ namespace UwpTraining_E1.Views
             settings.Values.Remove(AppBackgroundState.ApplicationTriggerTaskName);
             var p = new ValueSet();
             p.Add("par1", "val1");
-            var result = await trigger.RequestAsync(p);
-            AppBackgroundState.ApplicationTriggerTaskResult = "Signal result: " + result.ToString();
+            // var result = await trigger.RequestAsync(p);
+            // AppBackgroundState.ApplicationTriggerTaskResult = "Signal result: " + result.ToString();
             await UpdateUI();
         }
 

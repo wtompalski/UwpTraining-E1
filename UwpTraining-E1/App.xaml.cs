@@ -93,6 +93,7 @@ namespace UwpTraining_E1
                     // parameter
                     rootFrame.Navigate(typeof(BackgroundTask), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
