@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
@@ -43,6 +44,8 @@ namespace UwpTraining_E1.Background
         //
         private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
+            Debug.WriteLine("Cancel " + Thread.CurrentThread.ManagedThreadId);
+
             //
             // Indicate that the background task is canceled.
             //
@@ -57,6 +60,8 @@ namespace UwpTraining_E1.Background
         //
         private void PeriodicTimerCallback(ThreadPoolTimer timer)
         {
+            Debug.WriteLine("Periodic " + Thread.CurrentThread.ManagedThreadId);
+
             if ((_cancelRequested == false) && (_progress < 100))
             {
                 _progress += 10;
