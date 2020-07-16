@@ -91,7 +91,7 @@ namespace UwpTraining_E1
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(Storage), e.Arguments);
+                    rootFrame.Navigate(typeof(BackgroundTask), e.Arguments);
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
@@ -148,6 +148,15 @@ namespace UwpTraining_E1
             base.OnBackgroundActivated(args);
 
             new UwpTraining_E1.Background.BackgroundTask().Run(args.TaskInstance);
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            var toastArgs = args as ToastNotificationActivatedEventArgs;
+
+            Debug.WriteLine(toastArgs.Argument);
+
+            base.OnActivated(args);
         }
     }
 }

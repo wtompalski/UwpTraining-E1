@@ -19,5 +19,10 @@
             <TextBlock x:Name="Progress" Text=""/>
             <TextBlock x:Name="Result" Text=""/>
         </StackPanel>
+        <StackPanel>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Margin="0,10,0,10">
+                <Button x:Name="ShowToast" Content="Show toast" Click="ShowToast_Click"/>
+            </StackPanel>
+        </StackPanel>
     </StackPanel>
 </Page>
