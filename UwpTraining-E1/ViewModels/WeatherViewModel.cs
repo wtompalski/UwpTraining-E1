@@ -76,12 +76,31 @@ namespace UwpTraining_E1.ViewModels
 
             try
             {
-                this.WeatherInfo = await this.service.GetWeatherAsync(this.city);
+                // OPTION 1
+                // var dispatcher = Window.Current.Dispatcher;
 
+                // OPTION 2
+                var synchContext = SynchronizationContext.Current;
+
+                WeatherInfoModel localWeather = await this.service.GetWeatherAsync(this.city).ConfigureAwait(false);
+
+                // OPTION 1
+                // await dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                // {
+                //    this.WeatherInfo = localWeather;
+                //    this.IsBusy = false;
+                // });
+
+                // OPTION 2
+                synchContext.Post(obj => 
+                {
+                    this.WeatherInfo = obj as WeatherInfoModel;
+                    this.IsBusy = false;
+                }, localWeather);
             }
             finally
             {
-                this.IsBusy = false;
+                // this.IsBusy = false;
             }
         }
     }
