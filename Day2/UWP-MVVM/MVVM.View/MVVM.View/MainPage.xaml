@@ -1,0 +1,53 @@
+﻿<Page
+    x:Class="MVVM.View.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MVVM.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:converters="using:MVVM.View.Converters"
+
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <converters:PointerEventToPointConverter x:Name="PointerEventConverter"/>
+    </Page.Resources>
+
+
+    <Canvas x:Name="Drawing" Background="Gray" 
+            PointerPressed="Drawing_PointerPressed"
+            PointerMoved="Drawing_PointerMoved"
+            PointerReleased="Drawing_PointerReleased">
+        
+        <i:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="PointerPressed">
+                <core:InvokeCommandAction 
+                    Command="{x:Bind DrawingViewModel.PointPressedCommand}"
+                    InputConverter="{StaticResource PointerEventConverter}" >
+                </core:InvokeCommandAction>
+            </core:EventTriggerBehavior>
+            <core:EventTriggerBehavior EventName="PointerMoved">
+                <core:InvokeCommandAction
+                    Command="{x:Bind DrawingViewModel.PointMovedCommand}"
+                    InputConverter="{StaticResource PointerEventConverter}" >
+                </core:InvokeCommandAction>
+            </core:EventTriggerBehavior>
+            <core:EventTriggerBehavior EventName="PointerReleased">
+                <core:InvokeCommandAction 
+                    Command="{x:Bind DrawingViewModel.PointReleasedCommand}"
+                    InputConverter="{StaticResource PointerEventConverter}" >
+                </core:InvokeCommandAction>
+            </core:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+
+        <Path Stroke="White" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeThickness="5">
+            <Path.Data>
+                <GeometryGroup x:Name="DrawingGeometry">
+                </GeometryGroup>
+            </Path.Data>
+        </Path>
+    </Canvas>
+</Page>
